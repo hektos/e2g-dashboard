@@ -8,12 +8,18 @@ import {
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
+import EmiIcon from '@/app/ui/incons';
 
 const links = [
   { 
-    name: 'Emissioni', 
+    name: 'Dashboard', 
     href: '/dashboard', 
-    icon: RssIcon 
+    icon: RssIcon
+  },
+  { 
+    name: 'Emissioni', 
+    href: '/dashboard/emissioni', 
+    icon: EmiIcon 
   },
   {
     name: 'Determinanti',

@@ -33,6 +33,11 @@ export async function fetchLatestInvoices() {
         throw new Error('Failed to fetch the latest invoices.');
       }
     }
+    export type InvoiceWithCustormer = Prisma.invoicesGetPayload<{
+      include: {
+        customer: true
+      }
+    }>
 
     export async function fetchCardData() {
         try {
@@ -41,13 +46,12 @@ export async function fetchLatestInvoices() {
           // how to initialize multiple queries in parallel with JS.
           const invoiceCountPromise = prisma.invoices.count();
           const customerCountPromise = prisma.customers.count();
-          const invoiceStatusPromise = prisma.$queryRaw<Number>(
-            Prisma.sql `SELECT
-               SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END) AS paid,
-               SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) AS pending
-               FROM invoices`
-          );
-      
+          const invoiceStatusPromise = await prisma.invoicestatus.findUnique({
+            where: {
+              id: 1,
+            },
+          });
+
           const data = await Promise.all([
             invoiceCountPromise,
             customerCountPromise,
@@ -56,8 +60,8 @@ export async function fetchLatestInvoices() {
       
           const numberOfInvoices = Number(data[0] ?? '0');
           const numberOfCustomers = Number(data[1] ?? '0');
-          const totalPaidInvoices = formatCurrency(Number(data[2][0].paid) ?? '0');
-          const totalPendingInvoices = formatCurrency(Number(data[2][0].pending) ?? '0');
+          const totalPaidInvoices = formatCurrency(Number(invoiceStatusPromise?.paid) ?? '0');
+          const totalPendingInvoices = formatCurrency(Number(invoiceStatusPromise?.pending) ?? '0');
             
           return {
             numberOfCustomers,
