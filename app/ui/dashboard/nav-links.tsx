@@ -4,6 +4,7 @@ import {
   Cog8ToothIcon,
   RssIcon,
   CircleStackIcon,
+  AcademicCapIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -15,6 +16,11 @@ const links = [
     name: 'Dashboard', 
     href: '/dashboard', 
     icon: RssIcon
+  },
+  { 
+    name: 'Invoices', 
+    href: '/dashboard/invoices', 
+    icon: AcademicCapIcon
   },
   { 
     name: 'Emissioni', 
