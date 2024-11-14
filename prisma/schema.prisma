@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["views"]
+  previewFeatures = ["views","relationJoins"]
   output   = "../node_modules/.prisma/client"
 }
 
@@ -43,3 +43,4 @@ view invoicestatus {
   paid    BigInt
   pending BigInt
 }
+
